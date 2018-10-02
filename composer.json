@@ -11,9 +11,6 @@
             "homepage": "https://github.com/rikcage/yii2-user-logs"
         }
     ],
-    "require": {
-        "yiisoft/yii2": "*"
-    },
     "support": {
         "issues": "https://github.com/rikcage/yii2-user-logs/issues"
     },
