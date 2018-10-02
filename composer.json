@@ -1,0 +1,25 @@
+{
+    "name": "rikcage/yii2-user-logs",
+    "description": "User logs actions YII2",
+    "keywords": ["yii2", "users", "logs", "db", "actions"],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rik Cage",
+            "email": "rikcage@gmail.com",
+            "homepage": "https://github.com/rikcage/yii2-user-logs"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "support": {
+        "issues": "https://github.com/rikcage/yii2-user-logs/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "rikcage\\user-logs\\": ""
+        }
+    }
+}
