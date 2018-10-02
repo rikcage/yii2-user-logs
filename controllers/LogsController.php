@@ -3,18 +3,60 @@
 namespace rikcage\user-logs\controllers;
 
 use Yii;
-use rikcage\user-logs\models\Logs;
-use rikcage\user-logs\models\LogsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
+use rikcage\user-logs\models\UserLog;
+use rikcage\user-logs\models\Logs;
+use rikcage\user-logs\models\LogsSearch;
+
+//use developeruz\db_rbac\behaviors\AccessBehavior;
 
 /**
  * LogsController implements the CRUD actions for Logs model.
  */
 //class LogsController extends Controller
-class LogsController extends \backend\controllers\BaseController
+class LogsController extends \yii\web\Controller
 {
+	
+	public function beforeAction($action)
+	{
+		if (!parent::beforeAction($action)) {
+			return false;
+		}
+		$log = new UserLog;
+		$log->actionlog('ACTION', $this);
+
+		return true;
+	}	
+	
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+					[
+						'actions' => null, //for all
+						'allow' => true,
+						'roles' => ['@'],
+					],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+//			'as AccessBehavior' => [
+//				'class' => AccessBehavior::className(),
+//			],
+        ];
+    }
+	
     /**
      * Lists all Logs models.
      * @return mixed
