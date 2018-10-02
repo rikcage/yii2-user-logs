@@ -5,7 +5,7 @@ namespace rikcage\user-logs\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use rikcage\user-logs\models\Logs;
+use rikcage\user_logs\models\Logs;
 
 /**
  * LogsSearch represents the model behind the search form about `common\modules\dblogs\models\Logs`.

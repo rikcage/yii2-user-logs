@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "rikcage\\user-logs\\": ""
+            "rikcage\\user_logs\\": ""
         }
     }
 }

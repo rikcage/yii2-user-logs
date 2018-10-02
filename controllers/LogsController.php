@@ -8,9 +8,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use rikcage\user-logs\models\UserLog;
-use rikcage\user-logs\models\Logs;
-use rikcage\user-logs\models\LogsSearch;
+use rikcage\user_logs\models\UserLog;
+use rikcage\user_logs\models\Logs;
+use rikcage\user_logs\models\LogsSearch;
 
 //use developeruz\db_rbac\behaviors\AccessBehavior;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace rikcage\user-logs;
+namespace rikcage\user_logs;
 
 /**
  * bdlogs module definition class
@@ -10,7 +10,7 @@ class UserLogs extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'rikcage\user-logs\controllers';
+    public $controllerNamespace = 'rikcage\user_logs\controllers';
     public $theme = false;
 
     /**
@@ -34,7 +34,7 @@ class UserLogs extends \yii\base\Module
             Yii::$app->i18n->translations['user-logs'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'ru-Ru',
-                'basePath' => '@rikcage/user-logs/messages',
+                'basePath' => '@rikcage/user_logs/messages',
             ];
         }
     }

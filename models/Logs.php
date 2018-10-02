@@ -1,6 +1,6 @@
 <?php
 
-namespace rikcage\user-logs\models;
+namespace rikcage\user_logs\models;
 
 use Yii;
 use yii\db\ActiveRecord;

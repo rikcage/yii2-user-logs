@@ -1,5 +1,5 @@
 <?php
-namespace rikcage\user-logs\models;
+namespace rikcage\user_logs\models;
 
 use Yii;
 use yii\base\Behavior;
@@ -7,7 +7,7 @@ use yii\db\ActiveRecord;
 use yii\web\HttpException;
 use yii\web\User;
 use yii\behaviors\AttributeBehavior;
-use rikcage\user-logs\models\Logs;
+use rikcage\user_logs\models\Logs;
 
 
 class UserLog extends AttributeBehavior
