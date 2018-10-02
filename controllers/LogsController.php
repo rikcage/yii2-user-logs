@@ -1,18 +1,17 @@
 <?php
 
-namespace rikcage\user-logs\controllers;
+namespace rikcage\user_logs\controllers;
 
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 use rikcage\user_logs\models\UserLog;
 use rikcage\user_logs\models\Logs;
 use rikcage\user_logs\models\LogsSearch;
-
-//use developeruz\db_rbac\behaviors\AccessBehavior;
 
 /**
  * LogsController implements the CRUD actions for Logs model.
@@ -34,16 +33,22 @@ class LogsController extends \yii\web\Controller
 	
     public function behaviors()
     {
-        return [
+		if(!empty(Yii::$app->controller->module->access_rules) && is_array(Yii::$app->controller->module->access_rules)){
+			$access_rules = Yii::$app->controller->module->access_rules;
+		}else{
+			$access_rules = [
+				[
+					'actions' => null, //for all
+					'allow' => true,
+					'roles' => ['@'],
+				],
+			];
+		}
+		
+        $result = [
             'access' => [
                 'class' => AccessControl::className(),
-                'rules' => [
-					[
-						'actions' => null, //for all
-						'allow' => true,
-						'roles' => ['@'],
-					],
-                ],
+                'rules' => $access_rules,
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -51,10 +56,13 @@ class LogsController extends \yii\web\Controller
                     'logout' => ['post'],
                 ],
             ],
-//			'as AccessBehavior' => [
-//				'class' => AccessBehavior::className(),
-//			],
         ];
+		
+		if(!empty(Yii::$app->controller->module->behaviors_params)){
+			$result = ArrayHelper::merge($result, Yii::$app->controller->module->behaviors_params);
+		}
+		
+		return $result;
     }
 	
     /**

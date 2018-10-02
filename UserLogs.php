@@ -2,6 +2,8 @@
 
 namespace rikcage\user_logs;
 
+use Yii;
+
 /**
  * bdlogs module definition class
  */
@@ -12,6 +14,10 @@ class UserLogs extends \yii\base\Module
      */
     public $controllerNamespace = 'rikcage\user_logs\controllers';
     public $theme = false;
+    public $access_rules; //array
+    public $behaviors_params; //array
+    public $logs_live; //string
+    public $gitignore_list = array();
 
     /**
      * @inheritdoc
@@ -19,7 +25,8 @@ class UserLogs extends \yii\base\Module
     public function init()
     {
         parent::init();
-        $this->registerTranslations();
+        //$this->registerTranslations();
+        UserLogs::registerTranslations();
 
         if ($this->theme) {
             Yii::$app->view->theme = new \yii\base\Theme($this->theme);
@@ -28,13 +35,23 @@ class UserLogs extends \yii\base\Module
         // custom initialization code goes here
     }
 
-    public function registerTranslations()
+    public static function registerTranslations()
     {
-        if (!isset(Yii::$app->i18n->translations['user-logs'])) {
-            Yii::$app->i18n->translations['user-logs'] = [
+		Yii::setAlias('@rikcage', dirname(dirname(__DIR__)) . '/rikcage/yii2-user-logs');
+		//echo dirname(dirname(__DIR__)) . '/rikcage/yii2-user-logs';
+		//exit;
+		
+        if (!isset(Yii::$app->i18n->translations['user_logs'])) {
+            Yii::$app->i18n->translations['user_logs'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
-                'sourceLanguage' => 'ru-Ru',
-                'basePath' => '@rikcage/user_logs/messages',
+                //'sourceLanguage' => 'en-US',
+                //'sourceLanguage' => 'ru-Ru',
+                'basePath' => '@rikcage/messages/',
+                //'basePath' => '/var/www/multiglot_dev/vendor/rikcage/yii2-user-logs/messages',
+                'fileMap' => [
+                    'user_logs'       => 'user_logs.php',
+                ],
+				
             ];
         }
     }

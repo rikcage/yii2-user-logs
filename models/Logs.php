@@ -65,8 +65,13 @@ class Logs extends \yii\db\ActiveRecord
     }
 
 	public function beforeData(){
-	
-		$last_timest =  strtotime('-100 day');
+
+		if(!empty(Yii::$app->controller->module->logs_live)){
+			$logs_live = Yii::$app->controller->module->logs_live;
+		}else{
+			$logs_live = '-100 day';
+		}
+		$last_timest =  strtotime($logs_live);
 		$last_time = date('Y-m-d H:i:s', $last_timest);
         $this->deleteAll('time < :last_time', [':last_time' => $last_time]);
 		
@@ -77,17 +82,17 @@ class Logs extends \yii\db\ActiveRecord
 
 		$this->ip = (string)Yii::$app->request->userIP;
 		if(empty($this->ip)){
-			$this->ip = (string)Yii::t('app', 'Неудалось оптеделить IP адрес.');
+			$this->ip = (string)Yii::t('user_logs', 'Failed determine the IP address.');
 		}
 
 		$this->session_id = Yii::$app->session->id;
 		if(empty($this->session_id)){
-			$this->session_id = (string)Yii::t('app', 'Неудалось оптеделить ID сесси.');
+			$this->session_id = (string)Yii::t('user_logs', 'Failed determine the session ID.');
 		}
 		
 		$this->url = (string)Yii::$app->request->url;
 		if(empty($this->url)){
-			$this->url = (string)Yii::t('app', 'Неудалось оптеделить URL страницы.');
+			$this->url = (string)Yii::t('user_logs', 'Failed determine the URL of page.');
 		}
 
 		$this->user_host = (string)Yii::$app->request->userHost;
@@ -104,18 +109,18 @@ class Logs extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'log_id' => Yii::t('app', 'Log ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'ip' => Yii::t('app', 'Ip'),
-            'session_id' => Yii::t('app', 'Session ID'),
-            'user_host' => Yii::t('app', 'User Host'),
-            'user_agent' => Yii::t('app', 'User Agent'),
-            'url' => Yii::t('app', 'Url'),
-            'act' => Yii::t('app', 'Act'),
-            'time' => Yii::t('app', 'Time'),
-            'model' => Yii::t('app', 'Model'),
-            'last_data' => Yii::t('app', 'Last Data'),
-            'new_data' => Yii::t('app', 'New Data'),
+            'log_id' => Yii::t('user_logs', 'Log ID'),
+            'user_id' => Yii::t('user_logs', 'User ID'),
+            'ip' => Yii::t('user_logs', 'Ip'),
+            'session_id' => Yii::t('user_logs', 'Session ID'),
+            'user_host' => Yii::t('user_logs', 'User Host'),
+            'user_agent' => Yii::t('user_logs', 'User Agent'),
+            'url' => Yii::t('user_logs', 'Url'),
+            'act' => Yii::t('user_logs', 'Act'),
+            'time' => Yii::t('user_logs', 'Time'),
+            'model' => Yii::t('user_logs', 'Model'),
+            'last_data' => Yii::t('user_logs', 'Last Data'),
+            'new_data' => Yii::t('user_logs', 'New Data'),
         ];
     }
 	

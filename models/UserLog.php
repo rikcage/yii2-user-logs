@@ -7,7 +7,10 @@ use yii\db\ActiveRecord;
 use yii\web\HttpException;
 use yii\web\User;
 use yii\behaviors\AttributeBehavior;
+use yii\helpers\ArrayHelper;
+
 use rikcage\user_logs\models\Logs;
+use rikcage\user_logs\UserLogs;
 
 
 class UserLog extends AttributeBehavior
@@ -15,12 +18,20 @@ class UserLog extends AttributeBehavior
 
     public function addlog($act = null)
     {
+		UserLogs::registerTranslations();
 //		if(
 //			get_class($this->owner) == 'backend\modules\statistics\controllers\LogsController'
 //			//|| get_class($class) == 'backend\modules\statistics\controllers\Pay_logsController' 
 //			){
 //			return;
 //		}
+		if(!empty(Yii::$app->controller->module->gitignore_list)
+			&& is_array(Yii::$app->controller->module->gitignore_list)
+			&& in_array(get_class($this->owner), Yii::$app->controller->module->gitignore_list)
+		){
+			return;
+		}
+		
 
 		$log = new Logs();
 		if(@Yii::$app->user->isGuest)
@@ -30,12 +41,12 @@ class UserLog extends AttributeBehavior
 			
 		$log->ip = (string)Yii::$app->request->userIP;
 		if(empty($log->ip)){
-			$log->ip = (string)Yii::t('app', 'Неудалось оптеделить IP адрес.');
+			$log->ip = (string)Yii::t('user_logs', 'Failed determine the IP address.');
 		}
 		
 		$log->url = (string)Yii::$app->request->url;
 		if(empty($log->url)){
-			$log->url = (string)Yii::t('app', 'Неудалось оптеделить URL страницы.');
+			$log->url = (string)Yii::t('user_logs', 'Failed determine the URL of page.');
 		}
 		
 		$log->user_host = (string)Yii::$app->request->userHost;
@@ -50,13 +61,13 @@ class UserLog extends AttributeBehavior
 			if(substr_count($act, 'LOGIN')){
 				$log->model = (string)'{{%user}}';
 			}else{
-				$log->model = (string)Yii::t('app', 'Неудалось оптеделить таблицу.');
+				$log->model = (string)Yii::t('user_logs', 'Failed determine the table.');
 			}
 		}
 		if(!empty(get_class($this->owner))){
 			$log->model .= (string)' '.get_class($this->owner);
 		}else{
-			$log->model .= (string)' '.Yii::t('app', 'Неудалось оптеделить модель.');
+			$log->model .= (string)' '.Yii::t('user_logs', 'Failed determine the model.');
 		}
 
 		$log->last_data = (string)serialize($this->checkSecure($this->owner->oldAttributes));
@@ -82,10 +93,11 @@ class UserLog extends AttributeBehavior
 
     public function actionlog($act = null, $class=null)
     {
-		if(
-			get_class($class) == 'backend\modules\statistics\controllers\LogsController'
-			//|| get_class($class) == 'backend\modules\statistics\controllers\Pay_logsController' 
-			){
+		UserLogs::registerTranslations();
+		if(!empty(Yii::$app->controller->module->gitignore_list)
+			&& is_array(Yii::$app->controller->module->gitignore_list)
+			&& in_array(get_class($class), Yii::$app->controller->module->gitignore_list)
+		){
 			return;
 		}
 
@@ -97,12 +109,12 @@ class UserLog extends AttributeBehavior
 
 		$log->ip = (string)Yii::$app->request->userIP;
 		if(empty($log->ip)){
-			$log->ip = (string)Yii::t('app', 'Неудалось оптеделить IP адрес.');
+			$log->ip = (string)Yii::t('user_logs', 'Failed determine the IP address.');
 		}
 
 		$log->url = (string)Yii::$app->request->url;
 		if(empty($log->url)){
-			$log->url = (string)Yii::t('app', 'Неудалось оптеделить URL страницы.');
+			$log->url = (string)Yii::t('user_logs', 'Failed determine the URL of page.');
 		}
 
 		$log->user_host = (string)Yii::$app->request->userHost;
@@ -117,13 +129,13 @@ class UserLog extends AttributeBehavior
 			if(substr_count($act, 'LOGIN')){
 				$log->model = (string)'{{%user}}';
 			}else{
-				$log->model = (string)Yii::t('app', 'Неудалось оптеделить таблицу.');
+				$log->model = (string)Yii::t('user_logs', 'Failed determine the table.');
 			}
 		}
 		if(!empty(get_class($class))){
 			$log->model .= (string)' '.get_class($class);
 		}else{
-			$log->model .= (string)' '.Yii::t('app', 'Неудалось оптеделить модель.');
+			$log->model .= (string)' '.Yii::t('user_logs', 'Failed determine the model.');
 		}
 
 		if(method_exists($class, 'oldAttributes') && count($class->oldAttributes)){
