@@ -19,7 +19,9 @@ class UserLog extends AttributeBehavior
     public static function initTable($module_name)
     {
 		$module = \Yii::$app->getModule($module_name);
-		Logs::settableName($module->params['log_table']);
+		if(!empty($module->params['log_table'])){
+			Logs::settableName($module->params['log_table']);
+		}
     }
 
     public function addlog($act = null)
