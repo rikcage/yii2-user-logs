@@ -44,6 +44,9 @@ class LogsSearch extends Logs
         $query = Logs::find();
 
         // add conditions that should always apply here
+		$user = new Yii::$app->controller->module->params['userClass']();
+		$field_username = Yii::$app->controller->module->params['username'];
+		$field_userid = Yii::$app->controller->module->params['userid'];
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,8 +59,8 @@ class LogsSearch extends Logs
 				'act',
 				'time',
 				'username' => [
-					'asc' => ['user.username' => SORT_ASC],
-					'desc' => ['user.username' => SORT_DESC],
+					'asc' => ['user.'.$field_username => SORT_ASC],
+					'desc' => ['user.'.$field_username => SORT_DESC],
 				],
 			],
 			'defaultOrder' => ['log_id' => SORT_DESC],
@@ -71,8 +74,8 @@ class LogsSearch extends Logs
             return $dataProvider;
         }
 
-		$query->leftJoin(\backend\modules\admins\models\Admins::tableName().' user', '`user`.`id` = '.Logs::tableName().'.`user_id`');
-		$query->select('*');
+		$query->leftJoin($user::tableName().' user', '`user`.`'.$field_userid.'` = '.Logs::tableName().'.`user_id`');
+		$query->select('*, user.'.$field_username.' AS username');
 		
         // grid filtering conditions
         $query->andFilterWhere([
@@ -83,7 +86,7 @@ class LogsSearch extends Logs
 
         $query->andFilterWhere(['like', 'session_id', $this->session_id])
             ->andFilterWhere(['like', 'ip', $this->ip])
-            ->andFilterWhere(['like', 'user.username', $this->username])
+            ->andFilterWhere(['like', 'user.'.$field_username, $this->username])
             ->andFilterWhere(['like', 'user_host', $this->user_host])
             ->andFilterWhere(['like', 'user_agent', $this->user_agent])
             ->andFilterWhere(['like', 'url', $this->url])

@@ -16,15 +16,15 @@ use rikcage\user_logs\UserLogs;
 class UserLog extends AttributeBehavior
 {
 
+    public static function initTable($module_name)
+    {
+		$module = \Yii::$app->getModule($module_name);
+		Logs::settableName($module->params['log_table']);
+    }
+
     public function addlog($act = null)
     {
 		UserLogs::registerTranslations();
-//		if(
-//			get_class($this->owner) == 'backend\modules\statistics\controllers\LogsController'
-//			//|| get_class($class) == 'backend\modules\statistics\controllers\Pay_logsController' 
-//			){
-//			return;
-//		}
 		if(!empty(Yii::$app->controller->module->gitignore_list)
 			&& is_array(Yii::$app->controller->module->gitignore_list)
 			&& in_array(get_class($this->owner), Yii::$app->controller->module->gitignore_list)
@@ -71,18 +71,8 @@ class UserLog extends AttributeBehavior
 		}
 
 		$log->last_data = (string)serialize($this->checkSecure($this->owner->oldAttributes));
-//		if(method_exists($this->owner, 'oldAttributes') && count($this->owner->oldAttributes)){
-//			$log->last_data = (string)serialize($this->checkSecure($this->owner->oldAttributes));
-//		}else{
-//			$log->last_data = null;
-//		}
 
 		$log->new_data = (string)serialize($this->checkSecure($this->owner->attributes));
-//		if(method_exists($this->owner, 'attributes') && count($this->owner->attributes)){
-//			$log->new_data = (string)serialize($this->checkSecure($this->owner->attributes));
-//		}else{
-//			$log->new_data = null;
-//		}
 		
 		$log->save();
 		if(count($log->errors)){

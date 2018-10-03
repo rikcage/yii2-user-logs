@@ -25,21 +25,18 @@ class UserLogs extends \yii\base\Module
     public function init()
     {
         parent::init();
-        //$this->registerTranslations();
+        //UserLogs::registerInit();
         UserLogs::registerTranslations();
 
         if ($this->theme) {
             Yii::$app->view->theme = new \yii\base\Theme($this->theme);
         }
-
         // custom initialization code goes here
     }
 
     public static function registerTranslations()
     {
 		Yii::setAlias('@rikcage', dirname(dirname(__DIR__)) . '/rikcage/yii2-user-logs');
-		//echo dirname(dirname(__DIR__)) . '/rikcage/yii2-user-logs';
-		//exit;
 		
         if (!isset(Yii::$app->i18n->translations['user_logs'])) {
             Yii::$app->i18n->translations['user_logs'] = [
@@ -47,7 +44,6 @@ class UserLogs extends \yii\base\Module
                 //'sourceLanguage' => 'en-US',
                 //'sourceLanguage' => 'ru-Ru',
                 'basePath' => '@rikcage/messages/',
-                //'basePath' => '/var/www/multiglot_dev/vendor/rikcage/yii2-user-logs/messages',
                 'fileMap' => [
                     'user_logs'       => 'user_logs.php',
                 ],

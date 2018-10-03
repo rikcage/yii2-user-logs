@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
 class Logs extends \yii\db\ActiveRecord
 {
 	public $username;
+	private static $_tableName = '{{%logs}}';
 
 	public function behaviors()
 	{
@@ -31,7 +32,6 @@ class Logs extends \yii\db\ActiveRecord
 				'attributes' => [
 					ActiveRecord::EVENT_BEFORE_INSERT => ['time'],
 					ActiveRecord::EVENT_BEFORE_UPDATE => ['time'],
-//					ActiveRecord::EVENT_BEFORE_VALIDATE => ['time'],
 				],
 				'value' => function(){return $this->beforeData();},
 			],
@@ -44,9 +44,14 @@ class Logs extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%logs}}';
+		return self::$_tableName;
     }
 
+    public static function settableName($tableName)
+    {
+		self::$_tableName = $tableName;
+    }
+	
     /**
      * @inheritdoc
      */
@@ -55,7 +60,6 @@ class Logs extends \yii\db\ActiveRecord
         return [
             [['ip', 'url'], 'required'],
             [['user_id'], 'integer'],
-//            [['time'], 'safe'],
             [['last_data', 'new_data'], 'string'],
             [['ip', 'session_id'], 'string', 'max' => 50],
             [['user_host', 'user_agent', 'model'], 'string', 'max' => 255],
