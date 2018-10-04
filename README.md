@@ -10,20 +10,20 @@ The preferred way to install this extension is through [composer](http://getcomp
 To install, either run
 
 ```
-$ php composer.phar require rikcage/yii2-user-logs "@dev"
+$ php composer.phar require rikcage/yii2-user-logs "*"
 ```
 
 or add
 
 ```
-"rikcage/yii2-user-logs": "@dev"
+"rikcage/yii2-user-logs": "*"
 ```
 to the ```require``` section of your `composer.json` file.
 
 Run migration to create `logs` table (it means that a connection to the database is already configured for the application)
 
 ```bash
-./yii migrate --migrationPath=@rikcage/user-logs/migrations --interactive=0
+./yii migrate --migrationPath=@rikcage/user-logs/migrations
 ```bash
 
 
