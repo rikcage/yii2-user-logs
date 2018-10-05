@@ -20,7 +20,7 @@ class m180216_200532_create_logs_table extends Migration
             'ip' => Schema::TYPE_STRING . "(50) NOT NULL",
             'user_host' => Schema::TYPE_STRING . "(255) DEFAULT NULL",
             'user_agent' => Schema::TYPE_STRING . "(255) DEFAULT NULL",
-            'url' => Schema::TYPE_STRING . "(512) NOT NULL",
+            'url' => Schema::TYPE_TEXT . " NOT NULL",
             'act' => Schema::TYPE_STRING . "(512) DEFAULT NULL",
             'time' => "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP",
             'model' => Schema::TYPE_STRING . "(255) DEFAULT NULL",

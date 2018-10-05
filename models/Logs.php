@@ -60,10 +60,9 @@ class Logs extends \yii\db\ActiveRecord
         return [
             [['ip', 'url'], 'required'],
             [['user_id'], 'integer'],
-            [['last_data', 'new_data'], 'string'],
+            [['url', 'last_data', 'new_data'], 'string'],
             [['ip', 'session_id'], 'string', 'max' => 50],
             [['user_host', 'user_agent', 'model'], 'string', 'max' => 255],
-            [['url'], 'string', 'max' => 512],
             [['act'], 'string', 'max' => 100],
         ];
     }
