@@ -23,10 +23,25 @@ class m180216_200532_create_logs_table extends Migration
             'url' => Schema::TYPE_TEXT . " NOT NULL",
             'act' => Schema::TYPE_STRING . "(512) DEFAULT NULL",
             'time' => "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            'date' => $this->date() . " NOT NULL",
             'model' => Schema::TYPE_STRING . "(255) DEFAULT NULL",
             'last_data' => Schema::TYPE_TEXT . " NULL",
             'new_data' => Schema::TYPE_TEXT . " NULL",
-        ], 'ENGINE=InnoDB DEFAULT CHARSET=utf8');
+        ], 'ENGINE=MyISAM DEFAULT CHARSET=utf8');
+
+		//ALTER TABLE logs engine=MyISAM;
+		
+        $this->createIndex(
+            'logs-date',
+            '{{%logs}}',
+            'date'
+        );
+		
+        $this->createTable('{{%log_var_difinition}}', [
+            'name' => $this->string(255)->notNull(),
+            'value' => $this->text(),
+        ], 'ENGINE=MyISAM DEFAULT CHARSET=utf8');
+		
     }
 
     /**
@@ -35,5 +50,11 @@ class m180216_200532_create_logs_table extends Migration
     public function down()
     {
         $this->dropTable('{{%logs}}');
+        $this->dropIndex(
+            'logs-date',
+            '{{%logs}}'
+        );
+		
+        $this->dropTable('{{%log_var_difinition}}');
     }
 }

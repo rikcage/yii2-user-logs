@@ -4,6 +4,8 @@ namespace rikcage\user_logs\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+
+use rikcage\user_logs\models\LogsVarDifinition;
 /**
  * This is the model class for table "{{%logs}}".
  *
@@ -75,8 +77,9 @@ class Logs extends \yii\db\ActiveRecord
 			$logs_live = '-100 day';
 		}
 		$last_timest =  strtotime($logs_live);
-		$last_time = date('Y-m-d H:i:s', $last_timest);
-        $this->deleteAll('time < :last_time', [':last_time' => $last_time]);
+		$last_time = date('Y-m-d', $last_timest);
+		LogsVarDifinition::needDelete();
+        $this->deleteAll('date < :last_time', [':last_time' => $last_time]);
 		
 		if(@Yii::$app->user->isGuest)
 			$this->user_id = null;
@@ -102,6 +105,7 @@ class Logs extends \yii\db\ActiveRecord
 
 		$this->user_agent = (string)Yii::$app->request->userAgent;
 		$this->time = date('Y-m-d H:i:s');
+		$this->date = date('Y-m-d');
 		return $this->time;
 		
 	}
@@ -121,6 +125,7 @@ class Logs extends \yii\db\ActiveRecord
             'url' => Yii::t('user_logs', 'Url'),
             'act' => Yii::t('user_logs', 'Act'),
             'time' => Yii::t('user_logs', 'Time'),
+            'date' => Yii::t('user_logs', 'Date'),
             'model' => Yii::t('user_logs', 'Model'),
             'last_data' => Yii::t('user_logs', 'Last Data'),
             'new_data' => Yii::t('user_logs', 'New Data'),

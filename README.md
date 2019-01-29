@@ -1,4 +1,4 @@
-yii2-widget-timepicker
+yii2-user-logs
 ======================
 
 full and comfortable logs of user actions (visited pages), insert, update, delete
@@ -22,9 +22,9 @@ to the ```require``` section of your `composer.json` file.
 
 Run migration to create `logs` table (it means that a connection to the database is already configured for the application)
 
-```bash
+```
 ./yii migrate --migrationPath=@rikcage/user-logs/migrations
-```bash
+```
 
 
 Add the module
