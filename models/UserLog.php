@@ -15,15 +15,27 @@ use rikcage\user_logs\UserLogs;
 
 class UserLog extends AttributeBehavior
 {
-
+	public static $logs_module;
     public static function initTable($module_name)
     {
 		$module = \Yii::$app->getModule($module_name);
+		UserLog::$logs_module = $module;
 		if(!empty($module->params['log_table'])){
 			Logs::settableName($module->params['log_table']);
 		}
     }
 
+    public static function getMethod($method_name, $default_value = null)
+    {
+		$logs_module = UserLog::$logs_module;
+		if(!empty($logs_module->$method_name)){
+			$var_name = $logs_module->$method_name;
+		}else{
+			$var_name = $default_value;
+		}
+		return $var_name;
+    }
+	
     public function addlog($act = null)
     {
 		UserLogs::registerTranslations();

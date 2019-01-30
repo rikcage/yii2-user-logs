@@ -17,6 +17,8 @@ class UserLogs extends \yii\base\Module
     public $access_rules; //array
     public $behaviors_params; //array
     public $logs_live; //string
+    public $virtual_cron = true; //string
+    public $var_name_last_delete; //string
     public $gitignore_list = array();
 
     /**

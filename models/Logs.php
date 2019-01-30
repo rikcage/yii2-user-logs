@@ -5,6 +5,7 @@ namespace rikcage\user_logs\models;
 use Yii;
 use yii\db\ActiveRecord;
 
+use rikcage\user_logs\models\UserLog;
 use rikcage\user_logs\models\LogsVarDifinition;
 /**
  * This is the model class for table "{{%logs}}".
@@ -70,17 +71,13 @@ class Logs extends \yii\db\ActiveRecord
     }
 
 	public function beforeData(){
-
-		if(!empty(Yii::$app->controller->module->logs_live)){
-			$logs_live = Yii::$app->controller->module->logs_live;
-		}else{
-			$logs_live = '-100 day';
-		}
-		$last_timest =  strtotime($logs_live);
+		$logs_live = UserLog::getMethod('logs_live',  '-100 day');
+		$last_timest = strtotime($logs_live);
 		$last_time = date('Y-m-d', $last_timest);
-		LogsVarDifinition::needDelete();
-        $this->deleteAll('date < :last_time', [':last_time' => $last_time]);
-		
+		if(LogsVarDifinition::needDelete()){
+			$this->deleteAll('date < :last_time', [':last_time' => $last_time]);
+		}
+
 		if(@Yii::$app->user->isGuest)
 			$this->user_id = null;
 		else

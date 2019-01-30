@@ -57,6 +57,8 @@ Include module to the config file (`backend/config/main.php` for advanced app or
 			//		'class' => AccessBehavior::className(),
 			//	],
 			//],
+			//'virtual_cron' => false, //default virtual_cron=true once a day deletes old logs for disable use virtual_cron=false
+			//'var_name_last_delete' => 'logs_last_delete', // variable name the date of the last clean of the log, default var_name_last_delete=logs_last_delete
 			'logs_live' => '-100 day', // lifetime of log
 			'gitignore_list' => [ // ignored events of controllers and models.
 				'rikcage\user_logs\controllers\LogsController',
@@ -65,6 +67,7 @@ Include module to the config file (`backend/config/main.php` for advanced app or
 		],
 	],
 ```
+for disable use virtual_cron set ```'virtual_cron' => false```
 
 ## Installation guide for the Controller
 

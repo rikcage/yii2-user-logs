@@ -4,6 +4,9 @@ namespace rikcage\user_logs\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+
+use rikcage\user_logs\models\UserLog;
+
 /**
  * This is the model class for table "{{%logs}}".
  *
@@ -12,24 +15,6 @@ use yii\db\ActiveRecord;
  */
 class LogsVarDifinition extends \yii\db\ActiveRecord
 {
-//	public $username;
-//	private static $_tableName = '{{%logs}}';
-
-//	public function behaviors()
-//	{
-//		return [
-//			'timestamp' => [
-//				'class' => 'yii\behaviors\TimestampBehavior',
-//				'attributes' => [
-//					ActiveRecord::EVENT_BEFORE_INSERT => ['time'],
-//					ActiveRecord::EVENT_BEFORE_UPDATE => ['time'],
-//				],
-//				'value' => function(){return $this->beforeData();},
-//			],
-//		];
-//	}
-	
-	//public static $user_ip;
 	/**
      * @inheritdoc
      */
@@ -38,11 +23,6 @@ class LogsVarDifinition extends \yii\db\ActiveRecord
 		return '{{%log_var_difinition}}';
     }
 
-//    public static function settableName($tableName)
-//    {
-//		self::$_tableName = $tableName;
-//    }
-	
     /**
      * @inheritdoc
      */
@@ -55,34 +35,20 @@ class LogsVarDifinition extends \yii\db\ActiveRecord
     }
 
 	public static function needDelete(){
-		
-		if(!empty(Yii::$app->controller->module->logs_last_delete)){
-			$var_name = Yii::$app->controller->module->logs_last_delete;
-		}else{
-			$var_name = 'logs_last_delete';
+		if(!UserLog::getMethod('virtual_cron')){
+			return false;
 		}
-        //return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+
+		$var_name = UserLog::getMethod('var_name_last_delete',  'logs_last_delete');
 		
-        if (($var_difinition = LogsVarDifinition::findOne(['name' => $var_name,])) !== null) {
-            //return $var_difinition;
-			echo 'Exist;';
-			exit;
-        } else {
-			echo 'not Exist;';
-			//exit;
-            //Logs::
-			//Yii::$app->db->createCommand()->batchInsert($this->tableName(), ['user_id', 'subject_id', 'is_native', 'student_levels'], $data_rows)->execute();
-			$var_difinition = new LogsVarDifinition();
+        if (($var_difinition = LogsVarDifinition::findOne(['name' => $var_name,])) !== null && $var_difinition->value == date('Y-m-d')) {
+			return false;
         }
-		$last_date_delete = $var_difinition->value;
-		
+		$var_difinition = new LogsVarDifinition();
 		$var_difinition->name = $var_name;
 		$var_difinition->value = date('Y-m-d');
 		$var_difinition->save();
-//		$date = date('Y-m-d');
-//		if(){
-//			
-//		}
+		return true;
 	}
 	
     /**
