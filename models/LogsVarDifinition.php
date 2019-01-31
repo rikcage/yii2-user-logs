@@ -41,11 +41,15 @@ class LogsVarDifinition extends \yii\db\ActiveRecord
 
 		$var_name = UserLog::getMethod('var_name_last_delete',  'logs_last_delete');
 		
-        if (($var_difinition = LogsVarDifinition::findOne(['name' => $var_name,])) !== null && $var_difinition->value == date('Y-m-d')) {
-			return false;
-        }
-		$var_difinition = new LogsVarDifinition();
-		$var_difinition->name = $var_name;
+        if (($var_difinition = LogsVarDifinition::findOne(['name' => $var_name,])) !== null) {
+			if($var_difinition->value == date('Y-m-d')){
+				return false;
+			}
+        }else{
+			$var_difinition = new LogsVarDifinition();
+			$var_difinition->name = $var_name;
+		}
+		
 		$var_difinition->value = date('Y-m-d');
 		$var_difinition->save();
 		return true;

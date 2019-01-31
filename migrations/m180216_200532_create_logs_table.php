@@ -38,9 +38,10 @@ class m180216_200532_create_logs_table extends Migration
         );
 		
         $this->createTable('{{%log_var_difinition}}', [
-            'name' => $this->string(255)->notNull(),
+            'name' => $this->string(255)->notNull()->unique(),
             'value' => $this->text(),
         ], 'ENGINE=MyISAM DEFAULT CHARSET=utf8');
+        $this->addPrimaryKey('name-log_var_difinition', '{{%log_var_difinition}}', ['name',]);
 		
     }
 
@@ -49,11 +50,11 @@ class m180216_200532_create_logs_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('{{%logs}}');
         $this->dropIndex(
             'logs-date',
             '{{%logs}}'
         );
+        $this->dropTable('{{%logs}}');
 		
         $this->dropTable('{{%log_var_difinition}}');
     }

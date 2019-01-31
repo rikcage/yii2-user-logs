@@ -36,13 +36,13 @@ Include module to the config file (`backend/config/main.php` for advanced app or
 	'modules' => [
     ...
 		'logs' => [ // you can create several 'logs', 'logs_admin', etc. sections
-                    // if you want another table different from '{{% logs}} or several tables
+                    // if you want another table different from '{{%logs}} or several tables
 			'class' => 'rikcage\user_logs\UserLogs',
 			'params' => [
 				'userClass' => 'account\models\User',
 				'username' => 'user_name',
 				'userid' => 'user_id',
-				//'log_table' => '{{%logs_admin}}', // if you want another table different from '{{% logs}}'
+				//'log_table' => '{{%logs_admin}}', // if you want another table different from '{{%logs}}', default 'log_table' => '{{%logs}}'
 			],
 			'access_rules' => [ // Setting permissions for viewing logs (http://your_site/logs/logs)
 				[
@@ -84,7 +84,7 @@ use rikcage\user_logs\models\UserLog;
 		if (!parent::beforeAction($action)) {
 			return false;
 		}
-		//UserLog::initTable('logs_admin'); // if you want another section with settings different from 'logs' model
+		UserLog::initTable('logs'); // if you want another section with settings different from 'logs_admin' model
 		$log = new UserLog;
 		$log->actionlog('ACTION', $this);
 
